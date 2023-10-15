@@ -99,12 +99,24 @@ class EventListener implements Listener {
                 $item->setCustomName($rewardData["custom_name"]);
                 $item->setCount($rewardData["quantity"]);
                 if (isset($rewardData["enchantments"])) {
-                    $enchantments = StringToEnchantmentParser::getInstance()->parse($rewardData["enchantments"]);
+                    $enchantmentStrings = explode(",", $rewardData["enchantments"]);
                     $enchantmentInstances = [];
-                    foreach ($enchantments as $enchantment) {
-                        $enchantmentInstances[] = new EnchantmentInstance($enchantment, 1);
+
+                    foreach ($enchantmentStrings as $enchantmentString) {
+                        $parts = explode(":", $enchantmentString);
+                        if (count($parts) === 2) {
+                            $enchantment = StringToEnchantmentParser::getInstance()->parse($parts[0]);
+                            $level = (int)$parts[1];
+
+                            if ($enchantment !== null) {
+                                $enchantmentInstances[] = new EnchantmentInstance($enchantment, $level);
+                            }
+                        }
                     }
-                    $item->addEnchantments($enchantmentInstances);
+
+                    foreach ($enchantmentInstances as $enchantmentInstance) {
+                        $item->addEnchantment($enchantmentInstance);
+                    }
                 }
 
                 $player->getInventory()->addItem($item);
