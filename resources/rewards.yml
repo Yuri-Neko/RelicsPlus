@@ -1,0 +1,27 @@
+rewards:
+  common:
+    - item: "diamond_sword"
+      custom_name: "Common Diamond Sword"
+      quantity: 1
+    - item: "iron_pickaxe"
+      custom_name: "Common Iron Pickaxe"
+      quantity: 1
+  uncommon:
+    - item: "golden_apple"
+      custom_name: "Uncommon Golden Apples"
+      quantity: 5
+  rare:
+    - item: "cooked_beef"
+      custom_name: "Rare Cooked Beef"
+      quantity: 32
+  epic:
+    - item: "nether_star"
+      custom_name: "Epic Nether Star"
+      quantity: 1
+  legendary:
+    - item: "netherite_sword"
+      custom_name: "Legendary Netherite Sword"
+      enchantments:
+        sharpness: 5
+        looting: 3
+      quantity: 1
