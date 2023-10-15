@@ -1,0 +1,11 @@
+name: RelicsPlus
+version: 1.0.0
+author: Terpz710
+api: 5.0.0
+main: Terpz710\RelicsPlus\Main
+description: Simple relics for PocketMine-MP
+
+permissions:
+  relicsplus.cmd:
+    description: Allows you to spawn in relics.
+    defualt: op
