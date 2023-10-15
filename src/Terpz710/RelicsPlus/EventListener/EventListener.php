@@ -52,7 +52,7 @@ class EventListener implements Listener {
     }
 
     private function chanceToGetRelic(Player $player): bool {
-        $chance = 0.005;
+        $chance = 0.01;
 
         return (mt_rand(1, 100) <= $chance * 100);
     }
