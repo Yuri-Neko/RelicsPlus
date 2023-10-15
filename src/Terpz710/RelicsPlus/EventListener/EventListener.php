@@ -82,7 +82,7 @@ class EventListener implements Listener {
 
     private function getPrismarineRelicRarity(Item $item): ?string {
         $lore = $item->getLore();
-        foreach ($this->relicsManager->getAllRelics() as $relicRarity) {
+        foreach ($this->relicsManager::getAllRelics() as $relicRarity) {
             if (in_array("$relicRarity Rarity", $lore)) {
                 return $relicRarity;
             }
@@ -117,10 +117,10 @@ class EventListener implements Listener {
                     foreach ($enchantmentInstances as $enchantmentInstance) {
                         $item->addEnchantment($enchantmentInstance);
                     }
-                }
 
-                $player->getInventory()->addItem($item);
-                $player->sendMessage("You received a reward: " . $rewardData["custom_name"]);
+                    $player->getInventory()->addItem($item);
+                    $player->sendMessage("You received a reward: " . $rewardData["custom_name"]);
+                }
             }
         }
     }
