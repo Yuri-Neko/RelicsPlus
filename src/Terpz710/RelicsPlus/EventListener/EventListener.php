@@ -29,7 +29,7 @@ class EventListener implements Listener {
         $player = $event->getPlayer();
         $relicRarity = $this->getRandomRelicRarity();
         if ($relicRarity !== null && $this->chanceToGetRelic($player)) {
-            $relic = $this->relicsManager->createPrismarineRelic($relicRarity);
+            $relic = $this->relicsManager->createPrismarineRelic($relicRarity); // Pass rarity as an argument
             $player->getInventory()->addItem($relic);
             $player->sendMessage("You obtained a $relicRarity relic!");
         }
@@ -38,12 +38,12 @@ class EventListener implements Listener {
     public function onInteract(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $item = $event->getItem();
-        if ($this->isPrismarineRelic($item)) {
-            $relicRarity = $this->getPrismarineRelicRarity($item);
-            if ($relicRarity !== null) {
-                $this->giveReward($player, $relicRarity);
-                $player->getInventory()->removeItem($item);
-            }
+        
+        // Check if the item is a Prismarine Relic using the RelicsManager method
+        if ($this->relicsManager->isRelic($item->getName())) {
+            $relicRarity = $item->getName();
+            $this->giveReward($player, $relicRarity);
+            $player->getInventory()->removeItem($item);
         }
     }
 
@@ -75,27 +75,11 @@ class EventListener implements Listener {
         return (mt_rand(1, 100) <= $chance * 100);
     }
 
-    private function isPrismarineRelic(Item $item): bool {
-        $lore = $item->getLore();
-        return is_array($lore) && count($lore) > 0 && in_array("A valuable relic from the depths.", $lore);
-    }
-
-    private function getPrismarineRelicRarity(Item $item): ?string {
-        $lore = $item->getLore();
-        foreach ($this->relicsManager::getAllRelics() as $relicRarity) {
-            if (in_array("$relicRarity Rarity", $lore)) {
-                return $relicRarity;
-            }
-        }
-
-        return null;
-    }
-
     private function giveReward(Player $player, string $relicRarity) {
         if ($this->rewardsConfig->exists("rewards.$relicRarity")) {
             $rewards = $this->rewardsConfig->get("rewards.$relicRarity");
             foreach ($rewards as $rewardData) {
-                $item = StringToItemParser::getInstance()->parse($rewardData["item"]);
+                $item = $rewardData["item"];
                 $item->setCustomName($rewardData["custom_name"]);
                 $item->setCount($rewardData["quantity"]);
                 if (isset($rewardData["enchantments"])) {
@@ -105,17 +89,15 @@ class EventListener implements Listener {
                     foreach ($enchantmentStrings as $enchantmentString) {
                         $parts = explode(":", $enchantmentString);
                         if (count($parts) === 2) {
-                            $enchantment = StringToEnchantmentParser::getInstance()->parse($parts[0]);
+                            $enchantment = $parts[0];
                             $level = (int)$parts[1];
 
-                            if ($enchantment !== null) {
-                                $enchantmentInstances[] = new EnchantmentInstance($enchantment, $level);
-                            }
+                            $enchantmentInstances[] = [$enchantment, $level];
                         }
                     }
 
                     foreach ($enchantmentInstances as $enchantmentInstance) {
-                        $item->addEnchantment($enchantmentInstance);
+                        $item->addEnchantment($enchantmentInstance[0], $enchantmentInstance[1]);
                     }
 
                     $player->getInventory()->addItem($item);
