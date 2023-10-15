@@ -6,15 +6,16 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
-use pocketmine\Server;
 use Terpz710\RelicsPlus\RelicsManager;
 
 class EventListener implements Listener {
     private $plugin;
+    private $relicsManager;
 
-    public function __construct($plugin) {
+    public function __construct($plugin, RelicsManager $relicsManager) {
+        $this->relicsManager = $relicsManager;
         $this->plugin = $plugin;
-        $this->plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
+        $this->plugin->getServer()->getPluginManager()->registerEvents($this, $this->plugin);
     }
 
     public function onBlockBreak(BlockBreakEvent $event) {
@@ -22,7 +23,7 @@ class EventListener implements Listener {
 
         $relicRarity = $this->getRandomRelicRarity();
         if ($relicRarity !== null && $this->chanceToGetRelic($player)) {
-            $relic = RelicsManager::createPrismarineRelic($relicRarity);
+            $relic = $this->relicsManager->createPrismarineRelic($relicRarity); // Use the $relicsManager to create the relic
             $player->getInventory()->addItem($relic);
             $player->sendMessage("You obtained a $relicRarity relic!");
         }
