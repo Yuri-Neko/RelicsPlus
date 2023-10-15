@@ -12,11 +12,6 @@ use Terpz710\RelicsPlus\RelicsManager;
 class EventListener implements Listener {
     private $plugin;
 
-    public function __construct($plugin) {
-        $this->plugin = $plugin;
-        $this->plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
-    }
-
     public function onBlockBreak(BlockBreakEvent $event) {
         $player = $event->getPlayer();
 
