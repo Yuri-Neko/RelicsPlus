@@ -7,7 +7,7 @@ use pocketmine\item\VanillaItems;
 
 class RelicsManager {
 
-    public static function createPrismarineRelic(string $rarity): VanillaItems {
+    public static function createPrismarineRelic(string $rarity): Item {
         $relic = VanillaItems::PRISMARINE_SHARD();
 
         $relic->setCustomName("Prismarine Relic");
