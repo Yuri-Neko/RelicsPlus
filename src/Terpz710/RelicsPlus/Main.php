@@ -15,7 +15,7 @@ class Main extends PluginBase {
     public function onEnable(): void {
         $relicsManager = new RelicsManager();
 
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($relicsManager))$this;
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($relicsManager), $this);
 
         $this->getServer()->getCommandMap()->register("relics", new RelicsCommand($this, $relicsManager));
     }
