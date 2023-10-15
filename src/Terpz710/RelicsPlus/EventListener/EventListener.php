@@ -35,7 +35,7 @@ class EventListener implements Listener {
         }
     }
 
-    public function onRelicInteract(PlayerInteractEvent $event) {
+    public function onInteract(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $item = $event->getItem();
         if ($this->isPrismarineRelic($item)) {
