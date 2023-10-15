@@ -34,7 +34,7 @@ class RelicsCommand extends Command implements PluginOwned {
             } else {
                 $relicName = strtolower($args[0]);
                 if ($this->relicsManager->isRelic($relicName)) {
-                    $relic = $this->relicsManager->createRelic($relicName);
+                    $relic = $this->relicsManager->createPrismarineRelic($relicName);
                     $sender->getInventory()->addItem($relic);
                     $sender->sendMessage("You obtained a $relicName relic!");
                 } else {
