@@ -17,6 +17,6 @@ class Main extends PluginBase {
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($relicsManager), $this);
 
-        $this->getServer()->getCommandMap()->register("relics", new RelicsCommand($this, $relicManager));
+        $this->getServer()->getCommandMap()->register("relics", new RelicsCommand($this, $relicsManager));
     }
 }
