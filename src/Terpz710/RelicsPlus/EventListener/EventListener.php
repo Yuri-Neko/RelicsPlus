@@ -10,7 +10,6 @@ use pocketmine\Server;
 use Terpz710\RelicsPlus\RelicsManager;
 
 class EventListener implements Listener {
-    private $plugin;
 
     public function onBlockBreak(BlockBreakEvent $event) {
         $player = $event->getPlayer();
