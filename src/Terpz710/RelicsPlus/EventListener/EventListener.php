@@ -1,58 +1,51 @@
 <?php
 
-namespace Terpz710\RelicsPlus\EventListener;
+namespace Terpz710\RelicsPlus;
 
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\Listener;
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
-use pocketmine\player\Player;
-use pocketmine\Server;
-use Terpz710\RelicsPlus\RelicsManager;
 
-class EventListener implements Listener {
-    private $plugin;
+class RelicsManager {
 
-    public function __construct($plugin) {
-        $this->plugin = $plugin;
-        $this->plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
-    }
+    public static function createPrismarineRelic(string $rarity): Item {
+        $relic = VanillaItems::PRISMARINE_SHARD();
 
-    public function onBlockBreak(BlockBreakEvent $event) {
-        $player = $event->getPlayer();
+        $relic->setCustomName("Prismarine Relic");
+        $lore = ["A valuable relic from the depths."];
 
-        $relicRarity = $this->getRandomRelicRarity();
-        if ($relicRarity !== null && $this->chanceToGetRelic($player)) {
-            $relic = RelicsManager::createPrismarineRelic($relicRarity);
-            $player->getInventory()->addItem($relic);
-            $player->sendMessage("You obtained a $relicRarity relic!");
-        }
-    }
-
-    private function getRandomRelicRarity(): ?string {
-        $rarities = [
-            "common" => 70,
-            "uncommon" => 20,
-            "rare" => 7,
-            "epic" => 2,
-            "legendary" => 1,
-        ];
-
-        $totalChance = array_sum($rarities);
-        $random = mt_rand(1, $totalChance);
-
-        foreach ($rarities as $rarity => $chance) {
-            if ($random <= $chance) {
-                return $rarity;
-            }
-            $random -= $chance;
+        switch ($rarity) {
+            case "common":
+                $relic->setCustomName("Common Prismarine Relic");
+                $lore[] = "Common Rarity";
+                break;
+            case "uncommon":
+                $relic->setCustomName("Uncommon Prismarine Relic");
+                $lore[] = "Uncommon Rarity";
+                break;
+            case "rare":
+                $relic->setCustomName("Rare Prismarine Relic");
+                $lore[] = "Rare Rarity";
+                break;
+            case "epic":
+                $relic->setCustomName("Epic Prismarine Relic");
+                $lore[] = "Epic Rarity";
+                break;
+            case "legendary":
+                $relic->setCustomName("Legendary Prismarine Relic");
+                $lore[] = "Legendary Rarity";
+                break;
         }
 
-        return null;
+        $relic->setLore($lore);
+        return $relic;
     }
 
-    private function chanceToGetRelic(Player $player): bool {
-        $chance = 0.1;
+    public static function getAllRelics(): array {
+        return ["common", "uncommon", "rare", "epic", "legendary"];
+    }
 
-        return (mt_rand(1, 100) <= $chance * 100);
+    public static function isRelic(string $relicName): bool {
+        $relics = self::getAllRelics();
+        return in_array($relicName, $relics);
     }
 }
