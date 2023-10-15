@@ -2,6 +2,8 @@
 
 namespace Terpz710\RelicsPlus\EventListener;
 
+namespace Terpz710\RelicsPlus\EventListener;
+
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\item\VanillaItems;
@@ -23,7 +25,7 @@ class EventListener implements Listener {
 
         $relicRarity = $this->getRandomRelicRarity();
         if ($relicRarity !== null && $this->chanceToGetRelic($player)) {
-            $relic = $this->relicsManager->createPrismarineRelic($relicRarity); // Use the $relicsManager to create the relic
+            $relic = $this->relicsManager->createPrismarineRelic($relicRarity);
             $player->getInventory()->addItem($relic);
             $player->sendMessage("You obtained a $relicRarity relic!");
         }
@@ -31,11 +33,11 @@ class EventListener implements Listener {
 
     private function getRandomRelicRarity(): ?string {
         $rarities = [
-            "common" => 70,
+            "common" => 50,
             "uncommon" => 20,
-            "rare" => 7,
-            "epic" => 2,
-            "legendary" => 1,
+            "rare" => 10,
+            "epic" => 5,
+            "legendary" => 2,
         ];
 
         $totalChance = array_sum($rarities);
@@ -52,7 +54,7 @@ class EventListener implements Listener {
     }
 
     private function chanceToGetRelic(Player $player): bool {
-        $chance = 0.001;
+        $chance = 0.005;
 
         return (mt_rand(1, 100) <= $chance * 100);
     }
