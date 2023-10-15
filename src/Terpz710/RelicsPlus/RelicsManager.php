@@ -37,7 +37,7 @@ class RelicsManager {
 
         $relic->setLore($lore);
         // NOOP
-        return $relic;
+        return;
     }
 
     public static function getAllRelics(): array {
