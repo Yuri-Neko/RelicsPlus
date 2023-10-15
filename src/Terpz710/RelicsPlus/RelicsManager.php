@@ -2,6 +2,7 @@
 
 namespace Terpz710\RelicsPlus;
 
+use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 
 class RelicsManager {
@@ -36,8 +37,7 @@ class RelicsManager {
         }
 
         $relic->setLore($lore);
-        // NOOP
-        return; $relic
+        return $relic;
     }
 
     public static function getAllRelics(): array {
