@@ -6,6 +6,7 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
+use Terpz710\RelicsPlus\RelicsManager;
 
 class EventListener implements Listener {
     private $plugin;
