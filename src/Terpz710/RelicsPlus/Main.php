@@ -8,12 +8,15 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use Terpz710\RelicsPlus\EventListener\EventListener;
 use Terpz710\RelicsPlus\Commands\RelicsCommand;
+use Terpz710\RelicsPlus\RelicsManager;
 
 class Main extends PluginBase {
 
     public function onEnable(): void {
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        $relicsManager = new RelicsManager();
 
-        $this->getServer()->getCommandMap()->register("relics", new RelicsCommand($this));
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($relicsManager), $this);
+
+        $this->getServer()->getCommandMap()->register("relics", new RelicsCommand($this, $relicsManager));
     }
 }
