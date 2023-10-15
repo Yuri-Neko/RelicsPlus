@@ -2,8 +2,6 @@
 
 namespace Terpz710\RelicsPlus\EventListener;
 
-namespace Terpz710\RelicsPlus\EventListener;
-
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\item\VanillaItems;
