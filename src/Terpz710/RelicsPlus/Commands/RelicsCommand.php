@@ -13,28 +13,28 @@ use Terpz710\RelicsPlus\Main;
 use Terpz710\RelicsPlus\RelicsManager;
 
 class RelicsCommand extends Command implements PluginOwned {
-    private RelicsPlus $relicsplus;
-    private RelicManager $relicManager;
+    private Main $main;
+    private RelicsManager $relicsManager;
 
-    public function __construct(RelicsPlus $relicsplus, RelicManager $relicManager) {
-        $this->relicsplus = $relicsplus;
-        $this->relicManager = $relicManager;
+    public function __construct(Main $main, RelicsManager $relicsManager) {
+        $this->Main = $main;
+        $this->relicManager = $relicsManager;
         parent::__construct("relics", "Relics Plus Command");
         $this->setPermission("relicsplus.cmd");
     }
 
     public function getOwningPlugin(): Plugin {
-        return $this->relicsplus;
+        return $this->main;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {
         if ($sender instanceof Player) {
             if (empty($args)) {
-                $sender->sendMessage("Available Relics: " . implode(", ", $this->relicManager->getAllRelics()));
+                $sender->sendMessage("Available Relics: " . implode(", ", $this->relicsManager->getAllRelics()));
             } else {
                 $relicName = strtolower($args[0]);
-                if ($this->relicManager->isRelic($relicName)) {
-                    $relic = $this->relicManager->createRelic($relicName);
+                if ($this->relicsManager->isRelic($relicName)) {
+                    $relic = $this->relicsManager->createRelic($relicName);
                     $sender->getInventory()->addItem($relic);
                     $sender->sendMessage("You obtained a $relicName relic!");
                 } else {
@@ -42,7 +42,7 @@ class RelicsCommand extends Command implements PluginOwned {
                 }
             }
         } else {
-            $this->relicsplus->getLogger()->warning("Please use this command in-game!");
+            $this->main->getLogger()->warning("Please use this command in-game!");
         }
     }
 }
